@@ -21,3 +21,5 @@ jobs:
         target_branch: develop
         message: Merge PR into develop
         github_token: ${{ secrets.GH_TOKEN }}
+      env:
+        GITHUB_SHA: ${{ github.event.pull_request.head.sha }}
