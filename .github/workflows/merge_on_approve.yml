@@ -8,11 +8,11 @@ on:
 jobs:
   deploy-if-approved:
     if: github.event.review.state == 'approved'
-    permissions:
-      contents: write
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@master
+      with:
+        ref: ${{github.event.pull_request.head.label}}
 
     - name: Merge PR into develop
       uses: devmasx/merge-branch@master
@@ -20,4 +20,4 @@ jobs:
         type: now
         target_branch: develop
         message: Merge PR into develop
-        github_token: ${{ secrets.GITHUB_TOKEN }}
+        github_token: ${{ secrets.GH_TOKEN }}
