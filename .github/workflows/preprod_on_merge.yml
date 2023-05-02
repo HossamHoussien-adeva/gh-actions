@@ -2,7 +2,7 @@ name: "Deploy to Pre-prod on Merge"
 on:
   pull_request:
     types: [closed]
-    branches: ['master']
+    branches: ['master', 'main']
 
 jobs:
   deploy-if-merged:
