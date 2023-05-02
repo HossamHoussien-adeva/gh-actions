@@ -27,8 +27,8 @@ jobs:
         with:
           repo-token: "${{ secrets.GITHUB_TOKEN }}"
           base-branch-regex: 'master|main'
-          title-template: '[${{ fromJson(steps.jiraGetIssue.outputs.response).key }}]'
+          title-template: '[${{ fromJson(steps.jiraGetIssue.outputs.response).key }}] - ${{ fromJson(steps.jiraGetIssue.outputs.response).fields.summary }}'
           body-template: 'https://adeva.atlassian.net/browse/${{ fromJson(steps.jiraGetIssue.outputs.response).key }}'
-          title-update-action: 'prefix'
+          title-update-action: 'replace'
           body-update-action: 'prefix'
 
