@@ -6,16 +6,31 @@ on:
     branches-ignore: 'develop'
 
 jobs:
-  deploy-if-approved:
+  merge-if-approved:
     if: github.event.review.state == 'approved'
+    permissions:
+      contents: write
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@master
-      with:
-        ref: ${{github.event.pull_request.head.sha}}
-    - run: |
+
+    - name: Set Git config
+      run: |
+          git config --local user.email "actions@github.com"
+          git config --local user.name "Github Actions"
+
+    - name: Merge PR into develop
+          # git checkout -b feature
+          # git branch --set-upstream-to=origin/${{github.event.pull_request.head.ref}} ${{github.event.pull_request.head.ref}}
+          # git pull
+      run: |
+          git fetch --unshallow
+          git checkout ${{github.event.pull_request.head.ref}}
+          git pull
           git checkout develop
-          git merge ${{github.event.pull_request.head.sha}}
+          git pull
+          git merge ${{github.event.pull_request.head.ref}}
+          git push
     # - name: Merge PR into develop
     #   uses: devmasx/merge-branch@master
     #   with:
