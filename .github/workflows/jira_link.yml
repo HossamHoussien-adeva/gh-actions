@@ -10,13 +10,17 @@ jobs:
       pull-requests: write
     runs-on: ubuntu-latest
     steps:
-      - uses: cakeinpanic/jira-description-action@v0.4.0
-        name: jira-description-action
+      - name: Fetch Jira Issue Details
+        id: jiraGetIssue
+        uses: fjogeleit/http-request-action@main
         with:
-          use: both
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          jira-token: ${{ secrets.JIRA_TOKEN }}
-          jira-base-url: https://adeva.atlassian.net
-          # custom-issue-number-regexp: '\d+' #optional
-          jira-project-key: 'PLAT' #optional    
-          fail-when-jira-issue-not-found: true
+          url: 'https://adeva.atlassian.net/rest/api/3/issue/PLAT-2201?fields=summary'
+          method: 'GET'
+          customHeaders: '{"Authorization": "Basic ${{ secrets.JIRA_TOKEN }}"}'
+
+      - uses: seripap/pr-update-action@v3.1.2
+        with:
+          repo-token: "${{ secrets.GITHUB_TOKEN }}"
+          body-template: 'https://adeva.atlassian.net/browse/${{ steps.jiraGetIssue.outputs.response.key }}'
+          body-update-action: 'prefix'
+
