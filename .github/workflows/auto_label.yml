@@ -1,5 +1,5 @@
 # https://github.com/marketplace/actions/labeler
-name: "Pull Request Labeler"
+name: "Auto Assign Labels"
 on:
   pull_request:
     types: [opened, edited, reopened]
@@ -13,5 +13,5 @@ jobs:
     steps:
     - uses: TimonVS/pr-labeler-action@v4
       with:
-        repo-token: ${{ secrets.GH_TOKEN }}
+        repo-token: ${{ secrets.GITHUB_TOKEN }}
         configuration-path: '.github/config/labels.yml'
