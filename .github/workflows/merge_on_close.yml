@@ -1,3 +1,5 @@
+# https://github.com/actions-ecosystem/action-add-labels
+# https://github.com/actions-ecosystem/action-remove-labels
 name: "Merge into staging on PR merge"
 on:
   pull_request:
