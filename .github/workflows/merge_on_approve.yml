@@ -31,9 +31,11 @@ jobs:
     - name: Remove Review Labels
       uses: actions-ecosystem/action-remove-labels@v1
       with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
         labels: pending review
     
     - name: Add Merge Labels
       uses: actions-ecosystem/action-add-labels@v1
       with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
         labels: merged-staging
