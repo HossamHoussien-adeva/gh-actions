@@ -1,5 +1,5 @@
 # https://github.com/marketplace/actions/merge-branch
-name: "Deploy to Staging on Approval"
+name: "Merge into develop on Approval"
 on:
   pull_request_review:
     types: [submitted]
@@ -12,7 +12,7 @@ jobs:
     steps:
     - uses: actions/checkout@master
 
-    - name: Merge PR into `develop`
+    - name: Merge PR into develop
       uses: devmasx/merge-branch@master
       with:
         type: now

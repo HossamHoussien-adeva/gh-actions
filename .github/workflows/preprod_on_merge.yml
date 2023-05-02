@@ -1,4 +1,4 @@
-name: "Deploy to Pre-prod on Merge"
+name: "Merge PR to Pre-prod"
 on:
   pull_request:
     types: [closed]
@@ -11,7 +11,7 @@ jobs:
     steps:
     - uses: actions/checkout@master
 
-    - name: Merge PR into `staging`
+    - name: Merge PR into staging
       uses: devmasx/merge-branch@master
       with:
         type: now
