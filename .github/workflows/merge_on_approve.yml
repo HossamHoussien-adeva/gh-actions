@@ -20,10 +20,12 @@ jobs:
           git config --local user.name "Github Actions"
 
     - name: Merge PR into develop
+          # git checkout -b feature
+          # git branch --set-upstream-to=origin/${{github.event.pull_request.head.ref}} ${{github.event.pull_request.head.ref}}
+          # git pull
       run: |
           git fetch --unshallow
-          git checkout -b feature
-          git branch --set-upstream-to=origin/${{github.event.pull_request.head.ref}} ${{github.event.pull_request.head.ref}}
+          git checkout ${{github.event.pull_request.head.ref}}
           git pull
           git checkout develop
           git pull
