@@ -1,9 +1,9 @@
-name: Clone PR from master to develop
+name: Clone PR from main to develop
 on:
   pull_request:
     types: [opened]
     branches:
-      - 'master'
+      - 'main'
 
 jobs:
   auto-pull-request:
@@ -18,7 +18,7 @@ jobs:
             PR_BRANCH_FROM=release-v$(cat VERSION)
             echo "PULL_REQUEST_FROM_BRANCH=${PR_BRANCH_FROM}" >> $GITHUB_ENV
       - name: pull-request-action
-        uses: vsoch/pull-request-action@master
+        uses: vsoch/pull-request-action@main
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           PULL_REQUEST_BRANCH: "develop"
