@@ -21,7 +21,7 @@ jobs:
         id: jiraIssueId
         uses: atlassian/gajira-find-issue-key@v3
         with:
-          from: branch
+          string: '${{ github.event.pull_request.body }} ${{ github.event.pull_request.title }} ${{ github.event.pull_request.head.ref }}'
 
       - name: Fetch Jira Issue Details
         id: jiraGetIssue
@@ -30,6 +30,8 @@ jobs:
           url: '${{ secrets.JIRA_BASE_URL }}/rest/api/3/issue/PLAT-${{ steps.jiraIssueId.outputs.issue }}?fields=summary'
           method: 'GET'
           customHeaders: '{"Authorization": "Basic ${{ secrets.JIRA_TOKEN }}"}'
+          ignoreStatusCodes: true
+          preventFailureOnNoResponse: true
 
       - uses: seripap/pr-update-action@v3.1.6
         with:
