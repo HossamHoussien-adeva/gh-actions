@@ -13,6 +13,7 @@ jobs:
       - uses: cakeinpanic/jira-description-action@v0.3.3
         name: jira-description-action
         with:
+          use: both
           github-token: ${{ secrets.GITHUB_TOKEN }}
           jira-token: ${{ secrets.JIRA_TOKEN }}
           jira-base-url: https://adeva.atlassian.net
