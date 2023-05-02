@@ -16,5 +16,5 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           jira-token: ${{ secrets.JIRA_TOKEN }}
           jira-base-url: https://adeva.atlassian.net
-          custom-issue-number-regexp: '^\d+' #optional
+          custom-issue-number-regexp: '\d+' #optional
           jira-project-key: 'PLAT' #optional    
