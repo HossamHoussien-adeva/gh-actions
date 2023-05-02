@@ -11,11 +11,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@master
-
-    - name: Merge PR into develop
-      uses: devmasx/merge-branch@master
       with:
-        type: now
-        target_branch: develop
-        message: Merge PR into develop
-        github_token: ${{ secrets.GH_TOKEN }}
+        ref: ${{github.event.pull_request.head.sha}}
+    - run: |
+          git checkout develop
+          git merge ${{github.event.pull_request.head.sha}}
+    # - name: Merge PR into develop
+    #   uses: devmasx/merge-branch@master
+    #   with:
+    #     type: now
+    #     target_branch: develop
+    #     message: Merge PR into develop
+    #     github_token: ${{ secrets.GH_TOKEN }}
+    #   env:
+    #     GITHUB_SHA: ${{ github.event.pull_request.head.sha }}
