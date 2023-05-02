@@ -14,9 +14,10 @@ jobs:
     - name: Merge PR into develop
       run: |
           git fetch --unshallow
-          git checkout -b ${{github.event.pull_request.head.ref}}
+          git checkout -b feature
+          git branch --set-upstream-to=origin/${{github.event.pull_request.head.ref}} ${{github.event.pull_request.head.ref}}
           git pull
-          git checkout -b develop
+          git checkout develop
           git pull
           git merge ${{github.event.pull_request.head.ref}}
           git push
