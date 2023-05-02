@@ -11,10 +11,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@master
-      with:
-        ref: develop
-    - run: |
+    - name: Merge PR into develop
+      run: |
+          git fetch --unshallow
+          git checkout develop
+          git pull
           git merge ${{github.event.pull_request.head.ref}}
+          git push
     # - name: Merge PR into develop
     #   uses: devmasx/merge-branch@master
     #   with:
