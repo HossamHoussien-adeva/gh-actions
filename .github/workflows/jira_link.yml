@@ -19,3 +19,4 @@ jobs:
           jira-base-url: https://adeva.atlassian.net
           custom-issue-number-regexp: '\d+' #optional
           jira-project-key: 'PLAT' #optional    
+          fail-when-jira-issue-not-found: true
