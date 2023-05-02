@@ -18,4 +18,4 @@ jobs:
         type: now
         target_branch: develop
         message: Merge PR into develop
-        github_token: ${{ secrets.GH_TOKEN }}
+        github_token: ${{ secrets.GITHUB_TOKEN }}
