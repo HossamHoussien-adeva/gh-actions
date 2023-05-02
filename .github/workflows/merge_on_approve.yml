@@ -12,7 +12,7 @@ jobs:
     steps:
     - uses: actions/checkout@master
       with:
-        ref: ${{github.event.pull_request.head.label}}
+        ref: ${{github.event.pull_request.head.ref}}
 
     - name: Merge PR into develop
       uses: devmasx/merge-branch@master
