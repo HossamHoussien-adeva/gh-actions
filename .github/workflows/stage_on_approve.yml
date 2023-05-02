@@ -1,3 +1,4 @@
+# https://github.com/marketplace/actions/merge-branch
 name: "Deploy to Staging on Approval"
 on:
   pull_request_review:
