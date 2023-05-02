@@ -1,9 +1,8 @@
-# https://github.com/marketplace/actions/merge-branch
 name: "Merge into develop on Approval"
 on:
   pull_request_review:
     types: [submitted]
-    branches-ignore: 'develop'
+    branches: ['master', 'main']
 
 jobs:
   merge-if-approved:
@@ -20,9 +19,6 @@ jobs:
           git config --local user.name "Github Actions"
 
     - name: Merge PR into develop
-          # git checkout -b feature
-          # git branch --set-upstream-to=origin/${{github.event.pull_request.head.ref}} ${{github.event.pull_request.head.ref}}
-          # git pull
       run: |
           git fetch --unshallow
           git checkout ${{github.event.pull_request.head.ref}}
@@ -31,12 +27,3 @@ jobs:
           git pull
           git merge ${{github.event.pull_request.head.ref}}
           git push
-    # - name: Merge PR into develop
-    #   uses: devmasx/merge-branch@master
-    #   with:
-    #     type: now
-    #     target_branch: develop
-    #     message: Merge PR into develop
-    #     github_token: ${{ secrets.GH_TOKEN }}
-    #   env:
-    #     GITHUB_SHA: ${{ github.event.pull_request.head.sha }}
