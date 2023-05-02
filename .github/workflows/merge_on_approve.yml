@@ -6,15 +6,14 @@ on:
     branches-ignore: 'develop'
 
 jobs:
-  deploy-if-approved:
+  merge-if-approved:
     if: github.event.review.state == 'approved'
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@master
       with:
-        ref: ${{github.event.pull_request.head.sha}}
+        ref: develop
     - run: |
-          git checkout develop
           git merge ${{github.event.pull_request.head.sha}}
     # - name: Merge PR into develop
     #   uses: devmasx/merge-branch@master
