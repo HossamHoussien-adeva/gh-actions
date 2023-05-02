@@ -23,7 +23,7 @@ jobs:
           echo ${{ steps.jiraGetIssue.outputs.headers }}
           echo ${{ fromJson(steps.jiraGetIssue.outputs.response).key }}
 
-      - uses: seripap/pr-update-action@v3.1.2
+      - uses: seripap/pr-update-action@v3.1.6
         with:
           repo-token: "${{ secrets.GITHUB_TOKEN }}"
           base-branch-regex: 'master|main'
