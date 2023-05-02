@@ -1,3 +1,4 @@
 pending review: '*'
-feature: ['feature/*', 'feat/*']
+feature: ['feature/*', 'feat/*', 'feature/*', 'feat/*']
 bug: 'fix/*'
+hotfix: ['hotfix/*', 'hotfix-*']
