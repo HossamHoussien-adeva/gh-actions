@@ -10,6 +10,13 @@ jobs:
       pull-requests: write
     runs-on: ubuntu-latest
     steps:
+      - name: Login to Jira
+        uses: atlassian/gajira-login@v3
+        env:
+          JIRA_BASE_URL: ${{ secrets.JIRA_BASE_URL }}
+          JIRA_USER_EMAIL: ${{ secrets.JIRA_USER_EMAIL }}
+          JIRA_API_TOKEN: ${{ secrets.JIRA_API_TOKEN }}
+
       - name: Find Jira Issue ID
         id: jiraIssueId
         uses: atlassian/gajira-find-issue-key@v3
@@ -20,7 +27,7 @@ jobs:
         id: jiraGetIssue
         uses: fjogeleit/http-request-action@main
         with:
-          url: 'https://adeva.atlassian.net/rest/api/3/issue/PLAT-${{ steps.jiraIssueId.outputs.issue }}?fields=summary'
+          url: '${{ secrets.JIRA_BASE_URL }}/rest/api/3/issue/PLAT-${{ steps.jiraIssueId.outputs.issue }}?fields=summary'
           method: 'GET'
           customHeaders: '{"Authorization": "Basic ${{ secrets.JIRA_TOKEN }}"}'
 
@@ -29,7 +36,7 @@ jobs:
           repo-token: "${{ secrets.GITHUB_TOKEN }}"
           base-branch-regex: 'master|main'
           title-template: '[${{ fromJson(steps.jiraGetIssue.outputs.response).key }}] - ${{ fromJson(steps.jiraGetIssue.outputs.response).fields.summary }}'
-          body-template: 'https://adeva.atlassian.net/browse/${{ fromJson(steps.jiraGetIssue.outputs.response).key }}'
+          body-template: '${{ secrets.JIRA_BASE_URL }}/browse/${{ fromJson(steps.jiraGetIssue.outputs.response).key }}'
           title-update-action: 'replace'
           body-update-action: 'prefix'
 
