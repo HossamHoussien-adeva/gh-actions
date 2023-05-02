@@ -17,10 +17,6 @@ jobs:
           JIRA_USER_EMAIL: ${{ secrets.JIRA_USER_EMAIL }}
           JIRA_API_TOKEN: ${{ secrets.JIRA_API_TOKEN }}
 
-      - name: Login to Jira
-        run: |
-          echo ${{ Buffer.from('TEST_TOKEN').toString('base64') }}
-
       - name: Find Jira Issue ID
         id: jiraIssueId
         uses: atlassian/gajira-find-issue-key@v3
@@ -33,7 +29,8 @@ jobs:
         with:
           url: '${{ secrets.JIRA_BASE_URL }}/rest/api/3/issue/${{ steps.jiraIssueId.outputs.issue }}?fields=summary'
           method: 'GET'
-          customHeaders: '{"Authorization": "Basic ${{ secrets.JIRA_TOKEN }}"}'
+          username: ${{ secrets.JIRA_USER_EMAIL }}
+          password: ${{ secrets.JIRA_API_TOKEN }}
           ignoreStatusCodes: true
           preventFailureOnNoResponse: true
 
