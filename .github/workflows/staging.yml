@@ -1,0 +1,33 @@
+name: Staging Deployment
+
+on:
+  push:
+    branches: [ "develop" ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  deploy:
+    name: Deploy via SSH
+    runs-on: ubuntu-latest
+    steps:
+      - name: Connecting using remote SSH
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_STAGING_HOST }}
+          username: ${{ secrets.SSH_STAGING_USER }}
+          key: ${{ secrets.SSH_STAGING_PRIVATE_KEY }}
+          port: ${{ secrets.SSH_STAGING_PORT }}
+          script: |
+            cd "/var/www/platform"
+            git pull origin develop
+            composer install --no-progress --quiet --optimize-autoloader
+            php artisan cache:clear
+            php artisan config:cache
+            php artisan route:clear
+            php artisan migrate
+            supervisorctl restart all
+            npm install
+            npm run production

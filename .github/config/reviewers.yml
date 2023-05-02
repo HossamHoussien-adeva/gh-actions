@@ -9,10 +9,10 @@ addAssignees: false
 # A list of reviewers to be added to pull requests (GitHub user name)
 reviewers:
    - HossamHoussien
-#  - baze-adeva
-#  - filip-stojkovski-adeva
-#  - HossamHoussien-adeva
-#  - StoichevskiViktor
+   # - baze-adeva
+   # - filip-stojkovski-adeva
+   # - HossamHoussien-adeva
+   # - StoichevskiViktor
 
 # A number of reviewers added to the pull request
 # Set 0 to add all the reviewers (default: 0)
@@ -20,7 +20,7 @@ numberOfReviewers: 0
 
 # A list of assignees, overrides reviewers if set
 # assignees:
-#   - assigneeA
+# - assigneeA
 
 # A number of assignees to add to the pull request
 # Set to 0 to add all of the assignees.
@@ -29,5 +29,5 @@ numberOfReviewers: 0
 
 # A list of keywords to be skipped the process that add reviewers if pull requests include it
 skipKeywords:
-  - wip
-  - draft
+   - wip
+   - draft

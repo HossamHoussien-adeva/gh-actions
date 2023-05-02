@@ -1,0 +1,29 @@
+name: "Merge into develop on Approval"
+on:
+  pull_request_review:
+    types: [submitted]
+    branches: ['master', 'main']
+
+jobs:
+  merge-if-approved:
+    if: github.event.review.state == 'approved'
+    permissions:
+      contents: write
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+
+    - name: Set Git config
+      run: |
+          git config --local user.email "actions@github.com"
+          git config --local user.name "Github Actions"
+
+    - name: Merge PR into develop
+      run: |
+          git fetch --unshallow
+          git checkout ${{github.event.pull_request.head.ref}}
+          git pull
+          git checkout develop
+          git pull
+          git merge ${{github.event.pull_request.head.ref}}
+          git push
