@@ -1,0 +1,45 @@
+name: jira-description-action
+on:
+  pull_request:
+    types: [opened, edited]
+    branches: ['master', 'main']
+
+jobs:
+  add-jira-description:
+    permissions:
+      pull-requests: write
+    runs-on: ubuntu-latest
+    steps:
+      - name: Login to Jira
+        uses: atlassian/gajira-login@v3
+        env:
+          JIRA_BASE_URL: ${{ secrets.JIRA_BASE_URL }}
+          JIRA_USER_EMAIL: ${{ secrets.JIRA_USER_EMAIL }}
+          JIRA_API_TOKEN: ${{ secrets.JIRA_API_TOKEN }}
+
+      - name: Find Jira Issue ID
+        id: jiraIssueId
+        uses: atlassian/gajira-find-issue-key@v3
+        with:
+          string: '${{ github.event.pull_request.body }} ${{ github.event.pull_request.title }} ${{ github.event.pull_request.head.ref }}'
+
+      - name: Fetch Jira Issue Details
+        id: jiraGetIssue
+        uses: fjogeleit/http-request-action@main
+        with:
+          url: '${{ secrets.JIRA_BASE_URL }}/rest/api/3/issue/${{ steps.jiraIssueId.outputs.issue }}?fields=summary'
+          method: 'GET'
+          username: ${{ secrets.JIRA_USER_EMAIL }}
+          password: ${{ secrets.JIRA_API_TOKEN }}
+          ignoreStatusCodes: true
+          preventFailureOnNoResponse: true
+
+      - uses: seripap/pr-update-action@v3.1.6
+        with:
+          repo-token: "${{ secrets.GITHUB_TOKEN }}"
+          base-branch-regex: 'master|main'
+          title-template: '[${{ fromJson(steps.jiraGetIssue.outputs.response).key }}] - ${{ fromJson(steps.jiraGetIssue.outputs.response).fields.summary }}'
+          body-template: '${{ secrets.JIRA_BASE_URL }}/browse/${{ fromJson(steps.jiraGetIssue.outputs.response).key }}'
+          title-update-action: 'replace'
+          body-update-action: 'prefix'
+
