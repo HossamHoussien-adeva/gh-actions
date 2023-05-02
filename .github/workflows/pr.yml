@@ -14,14 +14,14 @@ jobs:
         uses: actions/checkout@v2
       - name: Derive from branch name
         run: |
-            # do custom parsing of your code / date to derive a branch from
-            PR_BRANCH_FROM=${{ github.event.pull_request.base.label}}
-            echo "PULL_REQUEST_FROM_BRANCH=${PR_BRANCH_FROM}" >> $GITHUB_ENV
+            PR_BASE_LABEL=${{ github.event.pull_request.base.label}}
+            PR_HEAD_LABEL=${{ github.event.pull_request.head.label}}
+            echo "PULL_REQUEST_BASE_LABEL=${PR_BASE_LABEL}" >> $GITHUB_ENV
+            echo "PULL_REQUEST_HEAD_LABEL=${PR_HEAD_LABEL}" >> $GITHUB_ENV
       - name: Test outputs
         run: |
-          echo "Pull request from env: ${PULL_REQUEST_FROM_BRANCH}"
-          echo "Pull request base label: ${github.event.pull_request.base.label}"
-          echo "Pull request head label: ${github.event.pull_request.head.label}"
+          echo "Pull request base label: ${PULL_REQUEST_BASE_LABEL}"
+          echo "Pull request head label: ${PULL_REQUEST_HEAD_LABEL}"
       - name: pull-request-action
         uses: vsoch/pull-request-action@master
         env:
