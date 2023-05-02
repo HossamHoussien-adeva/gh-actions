@@ -1,0 +1,29 @@
+name: "Merge into staging on PR merge"
+on:
+  pull_request:
+    types: [closed]
+    branches: ['master', 'main']
+
+jobs:
+  deploy-if-merged:
+    if: github.event.pull_request.merged == true
+    permissions:
+      contents: write
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+
+    - name: Set Git config
+      run: |
+          git config --local user.email "actions@github.com"
+          git config --local user.name "Github Actions"
+
+    - name: Merge PR into staging
+      run: |
+          git fetch --unshallow
+          git checkout ${{github.event.pull_request.head.ref}}
+          git pull
+          git checkout staging
+          git pull
+          git merge ${{github.event.pull_request.head.ref}}
+          git push
