@@ -1,0 +1,20 @@
+name: "Merge PR to Pre-prod"
+on:
+  pull_request:
+    types: [closed]
+    branches: ['master', 'main']
+
+jobs:
+  deploy-if-merged:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+
+    - name: Merge PR into staging
+      uses: devmasx/merge-branch@master
+      with:
+        type: now
+        target_branch: staging
+        message: Merge PR into staging
+        github_token: ${{ secrets.GH_TOKEN }}
