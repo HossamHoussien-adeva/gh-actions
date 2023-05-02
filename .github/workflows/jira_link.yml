@@ -10,7 +10,7 @@ jobs:
       pull-requests: write
     runs-on: ubuntu-latest
     steps:
-      - uses: cakeinpanic/jira-description-action@v0.3.3
+      - uses: cakeinpanic/jira-description-action@master
         name: jira-description-action
         with:
           use: both
