@@ -19,15 +19,15 @@ jobs:
           customHeaders: '{"Authorization": "Basic ${{ secrets.JIRA_TOKEN }}"}'
       - name: Show Response
         run: |
-          echo ${{ steps.myRequest.outputs.response }}
-          echo ${{ steps.myRequest.outputs.headers }}
-          echo ${{ fromJson(steps.myRequest.outputs.response).key }}
+          echo ${{ steps.jiraGetIssue.outputs.response }}
+          echo ${{ steps.jiraGetIssue.outputs.headers }}
+          echo ${{ fromJson(steps.jiraGetIssue.outputs.response).key }}
 
       - uses: seripap/pr-update-action@v3.1.2
         with:
           repo-token: "${{ secrets.GITHUB_TOKEN }}"
           # head-branch-regex: '.'
           base-branch-regex: 'master|main'
-          body-template: 'https://adeva.atlassian.net/browse/${{ steps.jiraGetIssue.outputs.response.key }}'
+          body-template: 'https://adeva.atlassian.net/browse/${{ fromJson(steps.jiraGetIssue.outputs.response).key }}'
           body-update-action: 'prefix'
 
