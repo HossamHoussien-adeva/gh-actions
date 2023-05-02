@@ -21,6 +21,7 @@ jobs:
       - uses: seripap/pr-update-action@v3.1.2
         with:
           repo-token: "${{ secrets.GITHUB_TOKEN }}"
+          head-branch-regex: '*'
           base-branch-regex: 'master|main'
           body-template: 'https://adeva.atlassian.net/browse/${{ steps.jiraGetIssue.outputs.response.key }}'
           body-update-action: 'prefix'
