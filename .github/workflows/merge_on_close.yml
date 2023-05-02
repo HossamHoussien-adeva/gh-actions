@@ -1,12 +1,12 @@
-name: "Merge into develop on Approval"
+name: "Merge into staging on PR merge"
 on:
-  pull_request_review:
-    types: [submitted]
+  pull_request:
+    types: [closed]
     branches: ['master', 'main']
 
 jobs:
-  merge-if-approved:
-    if: github.event.review.state == 'approved'
+  merge-if-pr-merged:
+    if: github.event.pull_request.merged == true
     permissions:
       contents: write
     runs-on: ubuntu-latest
@@ -18,22 +18,12 @@ jobs:
           git config --local user.email "actions@github.com"
           git config --local user.name "Github Actions"
 
-    - name: Merge PR into develop
+    - name: Merge PR into staging
       run: |
           git fetch --unshallow
           git checkout ${{github.event.pull_request.head.ref}}
           git pull
-          git checkout develop
+          git checkout staging
           git pull
           git merge ${{github.event.pull_request.head.ref}}
           git push
-    
-    - name: Remove Review Labels
-      uses: actions-ecosystem/action-remove-labels@v1
-      with:
-        labels: pending review
-    
-    - name: Add Merge Labels
-      uses: actions-ecosystem/action-add-labels@v1
-      with:
-        labels: merged-staging
