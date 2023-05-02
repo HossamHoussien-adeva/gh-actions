@@ -22,6 +22,6 @@ jobs:
       - name: pull-request-action
         uses: vsoch/pull-request-action@master
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
           PULL_REQUEST_BRANCH: "develop"
           PASS_IF_EXISTS: true
